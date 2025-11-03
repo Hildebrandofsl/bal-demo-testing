@@ -17,6 +17,13 @@ COPY . .
 RUN npm run build
 
 
+# Create a non-root user and change ownership
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
+
+# Switch to non-root user
+USER nodejs
 
 EXPOSE 3000
 
