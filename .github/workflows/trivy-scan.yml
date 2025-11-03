@@ -1,0 +1,121 @@
+name: Trivy Security Scan
+
+on:
+  workflow_call:
+    inputs:
+      docker-image-name:
+        description: 'Docker image name to scan'
+        required: false
+        type: string
+        default: 'app'
+      scan-severity:
+        description: 'Severity levels to scan for'
+        required: false
+        type: string
+        default: 'HIGH,CRITICAL'
+      ignore-unfixed:
+        description: 'Ignore unfixed vulnerabilities'
+        required: false
+        type: boolean
+        default: true
+      fail-on-severity:
+        description: 'Fail workflow if vulnerabilities found'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: .
+
+      - name: Load Docker image
+        run: gunzip -c docker-image.tar.gz | docker load
+
+      - name: Install Trivy
+        run: |
+          if ! command -v trivy &> /dev/null; then
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
+            sudo mv ./bin/trivy /usr/local/bin/trivy
+          fi
+
+      - name: Update Trivy vulnerability database
+        run: |
+          echo "📦 Refreshing Trivy vulnerability database..."
+          trivy image --download-db-only alpine:3.19 || true
+
+      - name: Run Trivy scans
+        run: |
+          mkdir -p trivy-results
+          
+          EXIT_CODE=${{ inputs.fail-on-severity == true && '1' || '0' }}
+          IGNORE_FLAG=${{ inputs.ignore-unfixed == true && '--ignore-unfixed' || '' }}
+          
+          echo "🔍 Scanning filesystem dependencies..."
+          trivy fs \
+            --scanners vuln \
+            --format sarif \
+            --output trivy-results/fs.sarif \
+            --severity ${{ inputs.scan-severity }} \
+            $IGNORE_FLAG \
+            --exit-code 0 \
+            --quiet .
+          
+          echo "🐳 Scanning Docker image..."
+          trivy image \
+            --format sarif \
+            --output trivy-results/image.sarif \
+            --severity ${{ inputs.scan-severity }} \
+            $IGNORE_FLAG \
+            --exit-code $EXIT_CODE \
+            --quiet ${{ inputs.docker-image-name }}:${{ github.sha }}
+          
+          echo "🧱 Scanning infrastructure as code..."
+          trivy config \
+            --format sarif \
+            --output trivy-results/config.sarif \
+            --severity ${{ inputs.scan-severity }} \
+            --exit-code 0 \
+            --quiet .
+
+      - name: Upload filesystem scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-results/fs.sarif
+          category: trivy-fs
+          wait-for-processing: true
+
+      - name: Upload image scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-results/image.sarif
+          category: trivy-image
+          wait-for-processing: true
+
+      - name: Upload config scan results
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: trivy-results/config.sarif
+          category: trivy-config
+          wait-for-processing: true
+
+      - name: Upload Trivy results as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-scan-results
+          path: trivy-results/
+          retention-days: 30

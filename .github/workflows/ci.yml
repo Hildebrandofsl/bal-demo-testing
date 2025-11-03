@@ -1,0 +1,33 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    uses: ./.github/workflows/build.yml
+    permissions:                    # ← Added this
+      actions: read
+      contents: read
+      security-events: write
+    with:
+      node-version: '20.x'
+      postgres-version: '15-alpine'
+      docker-image-name: 'fullstack-app'
+
+  security-scan:
+    name: Security Scan
+    needs: build-and-test
+    uses: ./.github/workflows/trivy-scan.yml
+    permissions:                    # ← Added this
+      
+      security-events: write
+    with:
+      docker-image-name: 'fullstack-app'
+      scan-severity: 'HIGH,CRITICAL'
+      ignore-unfixed: true
+      fail-on-severity: false
