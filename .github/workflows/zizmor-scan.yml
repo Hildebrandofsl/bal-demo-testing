@@ -3,11 +3,6 @@ name: Zizmor Security Scan
 on:
   workflow_call:
     inputs:
-      zizmor-version:
-        description: 'Zizmor version to install'
-        required: false
-        type: string
-        default: '1.16.2'
       workflow-paths:
         description: 'Paths to workflow files to scan'
         required: false
@@ -27,13 +22,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run zizmor scan
+      - name: Run Zizmor scan
         id: scan
         continue-on-error: true
-        uses: zizmorcore/zizmor-action@v${{ inputs.zizmor-version }}
+        uses: zizmorcore/zizmor-action@v0.2.0
         with:
           input-files: ${{ inputs.workflow-paths }}
           output-sarif: zizmor-results.sarif
+          advanced-security: true
+          annotations: false
 
       - name: Upload SARIF results to GitHub Security
         uses: github/codeql-action/upload-sarif@v4
@@ -42,26 +39,15 @@ jobs:
           sarif_file: zizmor-results.sarif
           category: zizmor
 
-    #   - name: Upload SARIF as artifact
-    #     uses: actions/upload-artifact@v4
-    #     if: always()
-    #     with:
-    #       name: zizmor-sarif-results
-    #       path: zizmor-results.sarif
-    #       retention-days: 30
-
       - name: Fail job if vulnerabilities found
         if: always()
         run: |
-          # Parse SARIF to count findings
           findings_count=$(jq '[.runs[].results // []] | add | length' zizmor-results.sarif)
-          
-          echo "Total zizmor findings: $findings_count"
-          
+          echo "Total Zizmor findings: $findings_count"
           if [ "$findings_count" -gt 0 ]; then
-            echo "❌ Zizmor found $findings_count security issue(s) in GitHub Actions workflows"
-            echo "::error::Workflow security vulnerabilities detected. Check the Security tab for details."
+            echo "::error::❌ Zizmor found $findings_count workflow security issue(s)"
+            echo "🔗 View details: https://github.com/${{ github.repository }}/security/code-scanning"
             exit 1
           else
-            echo "✅ No security issues found by zizmor"
+            echo "✅ No workflow security issues found by Zizmor"
           fi
