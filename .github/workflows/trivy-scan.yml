@@ -118,7 +118,7 @@ jobs:
           if [[ "${{ env.fs-scan-failed }}" == "true" || \
                 "${{ env.image-scan-failed }}" == "true" || \
                 "${{ env.config-scan-failed }}" == "true" ]]; then
-            echo "::error::❌ One or more Trivy scans detected vulnerabilities! Check SARIF reports in Security > Code Scanning Alerts."
+            echo -e "\033[0;31m::error::❌ One or more Trivy scans detected vulnerabilities!\033[0m"
             exit 1
           else
             echo "::notice::✅ No critical or high vulnerabilities found."
