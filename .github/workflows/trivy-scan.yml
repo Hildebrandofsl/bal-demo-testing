@@ -22,13 +22,12 @@ on:
         description: 'Fail workflow if vulnerabilities found'
         required: false
         type: boolean
-        default: false
+        default: true
 
 jobs:
   trivy-scan:
     runs-on: ubuntu-latest
 
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,39 +53,39 @@ jobs:
           echo "📦 Refreshing Trivy vulnerability database..."
           trivy image --download-db-only alpine:3.19 || true
 
-      - name: Run Trivy scans
+      - name: Run Trivy scans (fs, image, config)
+        id: trivy-scan
         run: |
           mkdir -p trivy-results
-          
-          EXIT_CODE=${{ inputs.fail-on-severity == true && '1' || '0' }}
-          IGNORE_FLAG=${{ inputs.ignore-unfixed == true && '--ignore-unfixed' || '' }}
-          
+          IGNORE_FLAG=${{ inputs.ignore-unfixed && '--ignore-unfixed' || '' }}
+          SEVERITY=${{ inputs.scan-severity }}
+
           echo "🔍 Scanning filesystem dependencies..."
           trivy fs \
             --scanners vuln \
             --format sarif \
             --output trivy-results/fs.sarif \
-            --severity ${{ inputs.scan-severity }} \
+            --severity $SEVERITY \
             $IGNORE_FLAG \
-            --exit-code 0 \
-            --quiet .
-          
+            --exit-code 1 \
+            --quiet . || echo "fs-scan-failed=true" >> $GITHUB_ENV
+
           echo "🐳 Scanning Docker image..."
           trivy image \
             --format sarif \
             --output trivy-results/image.sarif \
-            --severity ${{ inputs.scan-severity }} \
+            --severity $SEVERITY \
             $IGNORE_FLAG \
-            --exit-code $EXIT_CODE \
-            --quiet ${{ inputs.docker-image-name }}:${{ github.sha }}
-          
-          echo "🧱 Scanning infrastructure as code..."
+            --exit-code 1 \
+            --quiet ${{ inputs.docker-image-name }}:${{ github.sha }} || echo "image-scan-failed=true" >> $GITHUB_ENV
+
+          echo "🧱 Scanning IaC/Dockerfile..."
           trivy config \
             --format sarif \
             --output trivy-results/config.sarif \
-            --severity ${{ inputs.scan-severity }} \
-            --exit-code 0 \
-            --quiet .
+            --severity $SEVERITY \
+            --exit-code 1 \
+            --quiet . || echo "config-scan-failed=true" >> $GITHUB_ENV
 
       - name: Upload filesystem scan results
         uses: github/codeql-action/upload-sarif@v4
@@ -112,10 +111,15 @@ jobs:
           category: trivy-config
           wait-for-processing: true
 
-      - name: Upload Trivy results as artifacts
-        uses: actions/upload-artifact@v4
+      - name: Fail workflow if vulnerabilities found
         if: always()
-        with:
-          name: trivy-scan-results
-          path: trivy-results/
-          retention-days: 30
+        run: |
+          echo "Checking Trivy scan results..."
+          if [[ "${{ env.fs-scan-failed }}" == "true" || \
+                "${{ env.image-scan-failed }}" == "true" || \
+                "${{ env.config-scan-failed }}" == "true" ]]; then
+            echo "One or more Trivy scans detected vulnerabilities!"
+            exit 1
+          else
+            echo "No critical or high vulnerabilities found."
+          fi
