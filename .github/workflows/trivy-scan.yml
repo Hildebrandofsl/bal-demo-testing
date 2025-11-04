@@ -114,12 +114,26 @@ jobs:
       - name: Fail workflow if vulnerabilities found
         if: always()
         run: |
-          echo "Checking Trivy scan results..."
+          REPO_URL="https://github.com/${{ github.repository }}/security/code-scanning"
+      
+          echo "🔍 Checking Trivy scan results..."
           if [[ "${{ env.fs-scan-failed }}" == "true" || \
                 "${{ env.image-scan-failed }}" == "true" || \
                 "${{ env.config-scan-failed }}" == "true" ]]; then
-            echo -e "\033[0;31m::error::❌ One or more Trivy scans detected vulnerabilities!\033[0m"
+            echo "::error::❌ One or more Trivy scans detected vulnerabilities!"
+            echo "::notice::🔗 View detailed results: ${REPO_URL}"
+            echo ""
+            echo "--------------------------------------------"
+            echo "❌ One or more Trivy scans detected vulnerabilities!"
+            echo "🔗 Check details here: ${REPO_URL}"
+            echo "--------------------------------------------"
             exit 1
           else
             echo "::notice::✅ No critical or high vulnerabilities found."
+            echo ""
+            echo "--------------------------------------------"
+            echo "✅ No critical or high vulnerabilities found."
+            echo "🔗 View security dashboard: ${REPO_URL}"
+            echo "--------------------------------------------"
           fi
+      
