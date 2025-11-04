@@ -43,10 +43,11 @@ jobs:
 
       - name: Install Trivy
         run: |
-          if ! command -v trivy &> /dev/null; then
-            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
-            sudo mv ./bin/trivy /usr/local/bin/trivy
-          fi
+            if ! command -v trivy &> /dev/null; then
+              TRIVY_VERSION="0.66.0"
+              wget -qO- https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz | tar xz -C /tmp
+              sudo mv /tmp/trivy /usr/local/bin/trivy
+            fi
 
       - name: Update Trivy vulnerability database
         run: |
