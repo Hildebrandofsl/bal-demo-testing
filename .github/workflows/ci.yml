@@ -19,8 +19,8 @@ jobs:
       postgres-version: '15-alpine'
       docker-image-name: 'fullstack-app'
 
-  security-scan:
-    name: Security Scan
+  Tivy-scan:
+    name: Trivy Scan
     needs: build-and-test
     uses: ./.github/workflows/trivy-scan.yml
     permissions:                   
@@ -31,3 +31,14 @@ jobs:
       scan-severity: 'HIGH,CRITICAL'
       ignore-unfixed: true
       fail-on-severity: false
+  
+  zizmor-scan:
+        name: Zizmor Scan
+        needs: build-and-test
+        uses: ./.github/workflows/zizmor-scan.yml
+        permissions:
+          contents: read
+          security-events: write
+        with:
+          zizmor-version: '0.10.0'
+          workflow-paths: '.github/workflows/'
