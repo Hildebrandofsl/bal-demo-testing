@@ -120,8 +120,6 @@ jobs:
           if [[ "${{ env.fs-scan-failed }}" == "true" || \
                 "${{ env.image-scan-failed }}" == "true" || \
                 "${{ env.config-scan-failed }}" == "true" ]]; then
-            echo "::error::❌ One or more Trivy scans detected vulnerabilities!"
-            echo "::notice::🔗 View detailed results: ${REPO_URL}"
             echo ""
             echo "--------------------------------------------"
             echo "❌ One or more Trivy scans detected vulnerabilities!"
