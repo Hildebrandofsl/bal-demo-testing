@@ -1,0 +1,78 @@
+name: Zizmor Security Scan
+
+on:
+  workflow_call:
+    inputs:
+      zizmor-version:
+        description: 'Zizmor version to install'
+        required: false
+        type: string
+        default: '0.10.0'
+      workflow-paths:
+        description: 'Paths to workflow files to scan'
+        required: false
+        type: string
+        default: '.github/workflows/'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  zizmor-scan:
+    name: Scan GitHub Actions Workflows
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install zizmor
+        run: |
+          echo "Installing zizmor version ${{ inputs.zizmor-version }}"
+          curl -sSL https://github.com/woodruffw/zizmor/releases/download/v${{ inputs.zizmor-version }}/zizmor-x86_64-unknown-linux-musl \
+            -o /usr/local/bin/zizmor
+          chmod +x /usr/local/bin/zizmor
+          zizmor --version
+
+      - name: Run zizmor scan
+        id: scan
+        continue-on-error: true
+        run: |
+          echo "Scanning workflow paths: ${{ inputs.workflow-paths }}"
+          zizmor --format sarif ${{ inputs.workflow-paths }} > zizmor-results.sarif
+          
+          # Also output to console for visibility
+          echo "=== Zizmor Scan Results ==="
+          zizmor ${{ inputs.workflow-paths }}
+
+      - name: Upload SARIF results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: zizmor-results.sarif
+          category: zizmor
+
+    #   - name: Upload SARIF as artifact
+    #     uses: actions/upload-artifact@v4
+    #     if: always()
+    #     with:
+    #       name: zizmor-sarif-results
+    #       path: zizmor-results.sarif
+    #       retention-days: 30
+
+      - name: Fail job if vulnerabilities found
+        if: always()
+        run: |
+          # Parse SARIF to count findings
+          findings_count=$(jq '[.runs[].results // []] | add | length' zizmor-results.sarif)
+          
+          echo "Total zizmor findings: $findings_count"
+          
+          if [ "$findings_count" -gt 0 ]; then
+            echo "❌ Zizmor found $findings_count security issue(s) in GitHub Actions workflows"
+            echo "::error::Workflow security vulnerabilities detected. Check the Security tab for details."
+            exit 1
+          else
+            echo "✅ No security issues found by zizmor"
+          fi
