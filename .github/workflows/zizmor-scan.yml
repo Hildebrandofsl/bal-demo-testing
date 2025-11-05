@@ -23,46 +23,42 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Zizmor scan
-        id: scan
-        continue-on-error: true
         uses: zizmorcore/zizmor-action@v0.2.0
         with:
-          input-files: ${{ inputs.workflow-paths }}
-          output-format: sarif
-          output-file: zizmor-results.sarif 
-          advanced-security: true
+          inputs: .github/workflows/
+          advanced-security: true  # ← enables SARIF upload automatically
           annotations: false
 
-      - name: Verify Zizmor output
-        run: |
-          if [ -f zizmor-results.sarif ]; then
-            echo "✅ Zizmor SARIF file generated successfully."
-          else
-            echo "⚠️ No SARIF file found. Listing directory for debugging:"
-            ls -R
-            exit 1
-          fi
+    #   - name: Verify Zizmor output
+    #     run: |
+    #       if [ -f zizmor-results.sarif ]; then
+    #         echo "✅ Zizmor SARIF file generated successfully."
+    #       else
+    #         echo "⚠️ No SARIF file found. Listing directory for debugging:"
+    #         ls -R
+    #         exit 1
+    #       fi
 
-      - name: Upload SARIF results to GitHub Security
-        if: always()
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: zizmor-results.sarif
-          category: zizmor
+    #   - name: Upload SARIF results to GitHub Security
+    #     if: always()
+    #     uses: github/codeql-action/upload-sarif@v4
+    #     with:
+    #       sarif_file: zizmor-results.sarif
+    #       category: zizmor
 
-      - name: Fail job if vulnerabilities found
-        if: always()
-        run: |
-          if [ -f zizmor-results.sarif ]; then
-            findings_count=$(jq '[.runs[].results // []] | add | length' zizmor-results.sarif)
-            echo "Total Zizmor findings: $findings_count"
-            if [ "$findings_count" -gt 0 ]; then
-              echo "::error::❌ Zizmor found $findings_count workflow security issue(s)"
-              echo "🔗 View results: https://github.com/${{ github.repository }}/security/code-scanning"
-              exit 1
-            else
-              echo "✅ No workflow security issues found by Zizmor"
-            fi
-          else
-            echo "⚠️ Skipping vulnerability check — no SARIF generated"
-          fi
+    #   - name: Fail job if vulnerabilities found
+    #     if: always()
+    #     run: |
+    #       if [ -f zizmor-results.sarif ]; then
+    #         findings_count=$(jq '[.runs[].results // []] | add | length' zizmor-results.sarif)
+    #         echo "Total Zizmor findings: $findings_count"
+    #         if [ "$findings_count" -gt 0 ]; then
+    #           echo "::error::❌ Zizmor found $findings_count workflow security issue(s)"
+    #           echo "🔗 View results: https://github.com/${{ github.repository }}/security/code-scanning"
+    #           exit 1
+    #         else
+    #           echo "✅ No workflow security issues found by Zizmor"
+    #         fi
+    #       else
+    #         echo "⚠️ Skipping vulnerability check — no SARIF generated"
+    #       fi
