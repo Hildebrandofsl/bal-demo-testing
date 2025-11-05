@@ -3,56 +3,72 @@ name: Zizmor Security Scan
 on:
   workflow_call:
     inputs:
+      zizmor-version:
+        description: 'Version of Zizmor to use'
+        required: false
+        type: string
+        default: 'v1.16.2'
       workflow-paths:
-        description: 'Paths to workflow files to scan'
+        description: 'Path to workflows directory'
         required: false
         type: string
         default: '.github/workflows/'
 
-permissions:
-  contents: read
-  security-events: write
-
 jobs:
-  zizmor-scan:
-    name: Scan GitHub Actions Workflows
+  scan:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      security-events: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # 🧩 Run Zizmor scan (stable release)
-      - name: Run Zizmor scan
-        id: zizmor
+      
+      - name: Download and Install Zizmor
+        run: |
+          curl -sSL https://github.com/zizmorcore/zizmor/releases/download/${{ inputs.zizmor-version }}/zizmor-x86_64-unknown-linux-gnu.tar.gz -o zizmor.tar.gz
+          tar -xzf zizmor.tar.gz
+          chmod +x zizmor
+          sudo mv zizmor /usr/local/bin/
+          zizmor --version
+      
+      - name: Run Zizmor Scan
+        run: |
+          zizmor --format sarif ${{ inputs.workflow-paths }} > zizmor-results.sarif
         continue-on-error: true
-        uses: zizmorcore/zizmor-action@v0.2.0
+        
+      - name: Verify SARIF file exists
+        run: |
+          if [ -f zizmor-results.sarif ]; then
+            echo "✅ SARIF file created successfully"
+            echo "File size: $(wc -c < zizmor-results.sarif) bytes"
+            jq -r '.runs[].results[] | "[\(.level)] \(.message.text)"' zizmor-results.sarif || true
+          else
+            echo "❌ SARIF file not found!"
+            ls -la
+            exit 1
+          fi
+        
+      - name: Upload SARIF to Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
         with:
-          inputs: ${{ inputs.workflow-paths }}
-          advanced-security: true  # Auto-upload SARIF to GitHub Code Scanning
-          annotations: false
-
-      # 🧠 Fail only if Zizmor reports "Error"-level findings
-      - name: Fail job if 'Error' findings are detected
+          sarif_file: zizmor-results.sarif
+          category: zizmor
+          
+      - name: Check for Error-level findings
         if: always()
         run: |
-          echo "🔍 Checking for Zizmor 'Error'-level findings..."
-
-          # Use the SARIF file if available
           if [ -f zizmor-results.sarif ]; then
             errors=$(jq '[.runs[].results[] | select(.level=="error")] | length' zizmor-results.sarif)
-          else
-            # Zizmor auto-uploads results when advanced-security=true, so no local file may exist
-            errors=0
-          fi
-
-          echo "Found $errors 'Error'-level findings."
-          if [ "$errors" -gt 0 ] || [ "${{ steps.zizmor.outcome }}" != "success" ]; then
-            echo "::error::❌ Zizmor detected $errors critical workflow vulnerability(ies)."
-            echo ""
-            echo "🔗 View detailed results in GitHub Code Scanning:"
-            echo "👉 https://github.com/${{ github.repository }}/security/code-scanning?query=tool:zizmor+severity:error"
-            exit 1
-          else
-            echo "✅ No 'Error'-level issues found by Zizmor."
+            echo "Found $errors 'Error'-level findings."
+            
+            if [ "$errors" -gt 0 ]; then
+              echo "::error::❌ Zizmor detected $errors critical workflow vulnerability(ies)."
+              echo "🔗 View results: https://github.com/${{ github.repository }}/security/code-scanning?query=tool:zizmor"
+              exit 1
+            else
+              echo "✅ No 'Error'-level issues found by Zizmor."
+            fi
           fi
