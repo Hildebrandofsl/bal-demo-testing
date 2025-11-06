@@ -55,6 +55,9 @@ jobs:
           trivy image --download-db-only alpine:3.19 || true
 
       - name: Run Trivy scans (fs, image, config)
+        env:
+          DOCKER_IMAGE: ${{ inputs.docker-image-name }}
+          DOCKER_TAG: ${{ github.sha }}
         id: trivy-scan
         run: |
           mkdir -p trivy-results
@@ -78,7 +81,7 @@ jobs:
             --severity $SEVERITY \
             $IGNORE_FLAG \
             --exit-code 1 \
-            --quiet ${{ inputs.docker-image-name }}:${{ github.sha }} || echo "image-scan-failed=true" >> $GITHUB_ENV
+            --quiet ${DOCKER_TAG}:${DOCKER_TAG} || echo "image-scan-failed=true" >> $GITHUB_ENV
 
           echo "🧱 Scanning IaC/Dockerfile..."
           trivy config \
