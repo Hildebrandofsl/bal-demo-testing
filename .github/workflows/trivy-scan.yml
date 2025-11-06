@@ -13,11 +13,6 @@ on:
         required: false
         type: string
         default: 'HIGH,CRITICAL'
-      ignore-unfixed:
-        description: 'Ignore unfixed vulnerabilities'
-        required: false
-        type: boolean
-        default: true
       fail-on-severity:
         description: 'Fail workflow if vulnerabilities found'
         required: false
@@ -58,11 +53,11 @@ jobs:
         env:
           DOCKER_IMAGE: ${{ inputs.docker-image-name }}
           DOCKER_TAG: ${{ github.sha }}
+          SEVERITY: ${{ inputs.scan-severity }}
         id: trivy-scan
         run: |
           mkdir -p trivy-results
-          IGNORE_FLAG=${{ inputs.ignore-unfixed && '--ignore-unfixed' || '' }}
-          SEVERITY=${{ inputs.scan-severity }}
+          SEVERITY=${SEVERITY}
 
           echo "🔍 Scanning filesystem dependencies..."
           trivy fs \
@@ -70,7 +65,7 @@ jobs:
             --format sarif \
             --output trivy-results/fs.sarif \
             --severity $SEVERITY \
-            $IGNORE_FLAG \
+            --ignore-unfixed \
             --exit-code 1 \
             --quiet . || echo "fs-scan-failed=true" >> $GITHUB_ENV
 
@@ -79,7 +74,7 @@ jobs:
             --format sarif \
             --output trivy-results/image.sarif \
             --severity $SEVERITY \
-            $IGNORE_FLAG \
+            --ignore-unfixed \
             --exit-code 1 \
             --quiet ${DOCKER_TAG}:${DOCKER_TAG} || echo "image-scan-failed=true" >> $GITHUB_ENV
 

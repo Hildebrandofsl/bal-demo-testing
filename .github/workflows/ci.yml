@@ -29,7 +29,6 @@ jobs:
     with:
       docker-image-name: 'fullstack-app'
       scan-severity: 'HIGH,CRITICAL'
-      ignore-unfixed: true
       fail-on-severity: false
   
   zizmor-scan:
