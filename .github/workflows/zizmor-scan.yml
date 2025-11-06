@@ -36,9 +36,10 @@ jobs:
           zizmor --version
       
       - name: Run Zizmor Scan
+        env:
+           WORKFLOW_PATHS: "${{ inputs.workflow-paths }}"
         run: |
-          WORKFLOW_PATHS="${{ inputs.workflow-paths }}"
-          zizmor --format sarif -- "$WORKFLOW_PATHS" > zizmor-results.sarif
+          zizmor --format sarif -- "${WORKFLOW_PATHS}" > zizmor-results.sarif
         continue-on-error: true
         
       - name: Verify SARIF file exists
