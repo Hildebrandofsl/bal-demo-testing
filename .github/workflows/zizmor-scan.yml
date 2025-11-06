@@ -37,7 +37,8 @@ jobs:
       
       - name: Run Zizmor Scan
         run: |
-          zizmor --format sarif ${{ inputs.workflow-paths }} > zizmor-results.sarif
+          WORKFLOW_PATHS="${{ inputs.workflow-paths }}"
+          zizmor --format sarif -- "$WORKFLOW_PATHS" > zizmor-results.sarif
         continue-on-error: true
         
       - name: Verify SARIF file exists
