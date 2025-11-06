@@ -111,14 +111,18 @@ jobs:
           wait-for-processing: true
 
       - name: Fail workflow if vulnerabilities found
+        env:
+          FS_SCAN: ${{ env.fs-scan-failed }}
+          IMAGE_SCAN: ${{ env.image-scan-failed }}
+          CONFIG_SCAN: ${{ env.config-scan-failed }}
         if: always()
         run: |
           REPO_URL="https://github.com/${{ github.repository }}/security/code-scanning"
       
           echo "🔍 Checking Trivy scan results..."
-          if [[ "${{ env.fs-scan-failed }}" == "true" || \
-                "${{ env.image-scan-failed }}" == "true" || \
-                "${{ env.config-scan-failed }}" == "true" ]]; then
+          if [[ "${FS_SCAN}" == "true" || \
+                "${IMAGE_SCAN}" == "true" || \
+                "${CONFIG_SCAN}" == "true" ]]; then
             echo ""
             echo "--------------------------------------------"
             echo "❌ One or more Trivy scans detected vulnerabilities!"
