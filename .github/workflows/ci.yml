@@ -7,21 +7,21 @@ on:
     branches: [ main ]
 
 jobs:
-  # build-and-test:
-  #   name: Build and Test
-  #   uses: ./.github/workflows/build.yml
-  #   permissions:                    
-  #     actions: read
-  #     contents: read
-  #     security-events: write
-  #   with:
-  #     node-version: '20.x'
-  #     postgres-version: '15-alpine'
-  #     docker-image-name: 'fullstack-app'
+  build-and-test:
+    name: Build and Test
+    uses: ./.github/workflows/build.yml
+    permissions:                    
+      actions: read
+      contents: read
+      security-events: write
+    with:
+      node-version: '20.x'
+      postgres-version: '15-alpine'
+      docker-image-name: 'fullstack-app'
 
   Trivy-scan:
     name: Trivy Scan
-    #needs: build-and-test
+    needs: build-and-test
     uses: ./.github/workflows/trivy-scan.yml
     permissions:                   
       
@@ -33,7 +33,7 @@ jobs:
   
   zizmor-scan:
         name: Zizmor Scan
-        #needs: build-and-test
+        needs: build-and-test
         uses: ./.github/workflows/zizmor-scan.yml
         permissions:
           contents: read
