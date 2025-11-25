@@ -21,11 +21,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      # - name: Remove broken jq
-      #   run: |
-      #       npm uninstall -g jq || true
-      #       sudo rm -f $(which jq) || true
             
       - name: Install tools
         run: |
@@ -33,11 +28,6 @@ jobs:
           sudo apt-get install -y jq
           npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra
 
-      - name: Verify jq
-        run: |
-          which jq
-          jq --version
-      
       - name: Download API JSON definition
         run: |
           echo "Downloading API docs from: $API_DOC_URL"
@@ -73,6 +63,36 @@ jobs:
 
           echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
+      - name: Create environment.json
+        run: |
+          cat <<EOF > environment.json
+          {
+            "id": "dynamic-env",
+            "name": "dynamic-env",
+            "values": [
+              {
+                "key": "access_token",
+                "value": "${TOKEN}",
+                "enabled": true
+              }
+            ]
+          }
+          EOF
+
+      - name: Run Newman tests
+        run: |
+          set -e
+          newman run postman-collection.json \
+            -e environment.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export newman-report.html
+
+      - name: Upload Newman report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: newman-report-${{ github.sha }}
+          path: newman-report.html
   # build-and-test:
   #   name: Build and Test
   #   uses: ./.github/workflows/build.yml
