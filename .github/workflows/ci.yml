@@ -42,7 +42,7 @@ jobs:
   
   zizmor-scan:
         name: Zizmor Scan
-        needs: api-tests
+        needs: Newman-test-api
         #needs: build-and-test
         uses: ./.github/workflows/zizmor-scan.yml
         permissions:
