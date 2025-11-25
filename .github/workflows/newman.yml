@@ -1,0 +1,130 @@
+name: Newman API Test
+
+on:
+  workflow_call:
+    inputs:
+      api-doc-url:
+        description: 'API URL documentation'
+        required: true
+        type: string
+      auth-url:
+        description: 'Authorization endpoint'
+        required: true
+        type: string
+        
+
+jobs:
+    api-tests:
+        runs-on: ubuntu-latest
+        env:
+            API_DOC_URL: ${{ inputs.api-doc-url }} #"https://api.isst.dev/tst"
+            AUTH_URL: ${{ inputs.auth-url }} #"https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token"
+
+        steps:
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 18
+                    
+            - name: Install tools
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y jq
+                npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra
+
+            - name: Download API JSON definition
+              run: |
+                echo "Downloading API docs from: $API_DOC_URL"
+                curl -s "$API_DOC_URL/api-docs-json" -o api-spec.json
+        
+            - name: Convert API spec to Postman collection
+              run: |
+                openapi2postmanv2 \
+                    -s api-spec.json \
+                    -o postman-collection.json \
+                    -p
+
+            - name: Fetch dynamic token
+              env:
+                API_USERNAME: "test@test.test" #${{ secrets.API_USERNAME }}
+                API_PASSWORD: "test" #${{ secrets.API_PASSWORD }}
+              run: |
+                    echo "Requesting token from: $AUTH_URL"
+
+                    TOKEN=$(curl -s --location "$AUTH_URL" \
+                        --header 'Content-Type: application/x-www-form-urlencoded' \
+                        --data-urlencode 'client_id=amis-api' \
+                        --data-urlencode 'grant_type=password' \
+                        --data-urlencode "username=$API_USERNAME" \
+                        --data-urlencode "password=$API_PASSWORD" \
+                        --data-urlencode 'scope=openid' \
+                    | jq -r '.access_token')
+
+                    if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+                        echo "❌ Failed to retrieve token"
+                        exit 1
+                    fi
+
+                    echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+            - name: Create environment.json
+              run: |
+                cat <<EOF > environment.json
+                {
+                    "id": "dynamic-env",
+                    "name": "dynamic-env",
+                    "values": [
+                    {
+                        "key": "access_token",
+                        "value": "${TOKEN}",
+                        "enabled": true
+                    },
+                    {
+                        "key": "baseUrl",
+                        "value": "${API_DOC_URL}",
+                        "enabled": true
+                    }
+                    ]
+                }
+                EOF
+
+            - name: Inject Authorization header via pre-request script
+              run: |
+                jq '
+                    .event = ((.event // []) + [
+                    {
+                        listen: "prerequest",
+                        script: {
+                        type: "text/javascript",
+                        exec: [
+                            "if (!pm.request.headers.has(\"Authorization\")) {",
+                            "  var token = pm.environment.get(\"access_token\");",
+                            "  if (token) {",
+                            "    pm.request.headers.add({",
+                            "      key: \"Authorization\",",
+                            "      value: \"Bearer \" + token,",
+                            "      type: \"text\"",
+                            "    });",
+                            "  }",
+                            "}"
+                        ]
+                        }
+                    }
+                    ])
+                ' postman-collection.json > postman-collection.patched.json
+                mv postman-collection.patched.json postman-collection.json
+
+            - name: Run Newman tests
+              run: |
+                set -e
+                newman run postman-collection.json \
+                    -e environment.json \
+                    --reporters cli,htmlextra \
+                    --reporter-htmlextra-export newman-report.html
+
+            - name: Upload Newman report
+              uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                name: newman-report-${{ github.sha }}
+                path: newman-report.html
