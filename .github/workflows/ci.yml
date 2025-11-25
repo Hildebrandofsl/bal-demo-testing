@@ -25,7 +25,7 @@ jobs:
       - name: Remove broken jq
         run: |
             npm uninstall -g jq || true
-            rm -f $(which jq) || true
+            sudo rm -f $(which jq) || true
             
       - name: Install tools
         run: |
