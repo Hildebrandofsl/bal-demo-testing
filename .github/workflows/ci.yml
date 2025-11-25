@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: Remove broken jq
-        run: |
-            npm uninstall -g jq || true
-            sudo rm -f $(which jq) || true
+      # - name: Remove broken jq
+      #   run: |
+      #       npm uninstall -g jq || true
+      #       sudo rm -f $(which jq) || true
             
       - name: Install tools
         run: |
