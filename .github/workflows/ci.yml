@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       API_DOC_URL: "https://api.isst.dev/tst/api-docs-json"
-      AUTH_URL: ${{ inputs.target_env == 'tst' && 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token' || 'https://auth.isst.dev/realms/prod_realm/protocol/openid-connect/token' }}
+      AUTH_URL: "https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token"
 
     steps:
       - name: Checkout
@@ -30,10 +30,7 @@ jobs:
         run: |
           echo "Downloading API docs from: $API_DOC_URL"
           curl -s "$API_DOC_URL" -o api-spec.json
-
-      # ---------------------------------------------------
-      # 2. Convert API JSON to Postman Collection
-      # ---------------------------------------------------
+  
       - name: Convert API spec to Postman collection
         run: |
           openapi2postmanv2 \
@@ -41,6 +38,28 @@ jobs:
             -o postman-collection.json \
             -p
 
+      - name: Fetch dynamic token
+        env:
+          API_USERNAME: "test@test.test" #${{ secrets.API_USERNAME }}
+          API_PASSWORD: "test" #${{ secrets.API_PASSWORD }}
+        run: |
+          echo "Requesting token from: $AUTH_URL"
+
+          TOKEN=$(curl -s --location "$AUTH_URL" \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'client_id=amis-api' \
+            --data-urlencode 'grant_type=password' \
+            --data-urlencode "username=$API_USERNAME" \
+            --data-urlencode "password=$API_PASSWORD" \
+            --data-urlencode 'scope=openid' \
+          | jq -r '.access_token')
+
+          if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+            echo "❌ Failed to retrieve token"
+            exit 1
+          fi
+
+          echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
   # build-and-test:
   #   name: Build and Test
