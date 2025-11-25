@@ -88,6 +88,33 @@ jobs:
         run: |
           curl -v -H "Authorization: Bearer ${TOKEN}" https://api.isst.dev/tst/cache
 
+      
+      - name: Inject Authorization header via pre-request script
+        run: |
+          jq '
+            .event = ((.event // []) + [
+              {
+                listen: "prerequest",
+                script: {
+                  type: "text/javascript",
+                  exec: [
+                    "if (!pm.request.headers.has(\"Authorization\")) {",
+                    "  var token = pm.environment.get(\"access_token\");",
+                    "  if (token) {",
+                    "    pm.request.headers.add({",
+                    "      key: \"Authorization\",",
+                    "      value: \"Bearer \" + token,",
+                    "      type: \"text\"",
+                    "    });",
+                    "  }",
+                    "}"
+                  ]
+                }
+              }
+            ])
+          ' postman-collection.json > postman-collection.patched.json
+          mv postman-collection.patched.json postman-collection.json
+
       - name: Run Newman tests
         run: |
           set -e
