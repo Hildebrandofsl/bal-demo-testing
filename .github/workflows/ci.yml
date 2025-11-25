@@ -10,7 +10,7 @@ jobs:
   api-tests:
     runs-on: ubuntu-latest
     env:
-      API_DOC_URL: ${{ inputs.target_env == 'tst' && 'https://api.isst.dev/tst/api-docs-json' || 'https://api.isst.dev/api-docs-json' }}
+      API_DOC_URL: "https://api.isst.dev/tst/api-docs-json"
       AUTH_URL: ${{ inputs.target_env == 'tst' && 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token' || 'https://auth.isst.dev/realms/prod_realm/protocol/openid-connect/token' }}
 
     steps:
