@@ -33,6 +33,11 @@ jobs:
           sudo apt-get install -y jq
           npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra jq
 
+      - name: Verify jq
+        run: |
+          which jq
+          jq --version
+      
       - name: Download API JSON definition
         run: |
           echo "Downloading API docs from: $API_DOC_URL"
