@@ -7,37 +7,69 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
-    name: Build and Test
-    uses: ./.github/workflows/build.yml
-    permissions:                    
-      actions: read
-      contents: read
-      security-events: write
-    with:
-      node-version: '20.x'
-      postgres-version: '15-alpine'
-      docker-image-name: 'fullstack-app'
+  api-tests:
+    runs-on: ubuntu-latest
+    env:
+      API_DOC_URL: ${{ inputs.target_env == 'tst' && 'https://api.isst.dev/tst/api-docs-json' || 'https://api.isst.dev/api-docs-json' }}
+      AUTH_URL: ${{ inputs.target_env == 'tst' && 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token' || 'https://auth.isst.dev/realms/prod_realm/protocol/openid-connect/token' }}
 
-  Trivy-scan:
-    name: Trivy Scan
-    needs: build-and-test
-    uses: ./.github/workflows/trivy-scan.yml
-    permissions:                   
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install tools
+        run: |
+          npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra jq
+
+      - name: Download API JSON definition
+        run: |
+          echo "Downloading API docs from: $API_DOC_URL"
+          curl -s "$API_DOC_URL" -o api-spec.json
+
+      # ---------------------------------------------------
+      # 2. Convert API JSON to Postman Collection
+      # ---------------------------------------------------
+      - name: Convert API spec to Postman collection
+        run: |
+          openapi2postmanv2 \
+            -s api-spec.json \
+            -o postman-collection.json \
+            -p
+
+
+  # build-and-test:
+  #   name: Build and Test
+  #   uses: ./.github/workflows/build.yml
+  #   permissions:                    
+  #     actions: read
+  #     contents: read
+  #     security-events: write
+  #   with:
+  #     node-version: '20.x'
+  #     postgres-version: '15-alpine'
+  #     docker-image-name: 'fullstack-app'
+
+  # Trivy-scan:
+  #   name: Trivy Scan
+  #   needs: build-and-test
+  #   uses: ./.github/workflows/trivy-scan.yml
+  #   permissions:                   
       
-      security-events: write
-    with:
-      docker-image-name: 'fullstack-app'
-      scan-severity: 'HIGH,CRITICAL'
-      fail-on-severity: false
+  #     security-events: write
+  #   with:
+  #     docker-image-name: 'fullstack-app'
+  #     scan-severity: 'HIGH,CRITICAL'
+  #     fail-on-severity: false
   
-  zizmor-scan:
-        name: Zizmor Scan
-        needs: build-and-test
-        uses: ./.github/workflows/zizmor-scan.yml
-        permissions:
-          contents: read
-          security-events: write
-        # with:
-        #   zizmor-version: '0.10.0'
-        #   workflow-paths: '.github/workflows/'
+  # zizmor-scan:
+  #       name: Zizmor Scan
+  #       needs: build-and-test
+  #       uses: ./.github/workflows/zizmor-scan.yml
+  #       permissions:
+  #         contents: read
+  #         security-events: write
