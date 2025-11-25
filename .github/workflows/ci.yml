@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Remove broken jq
+        run: |
+            npm uninstall -g jq || true
+            rm -f $(which jq) || true
+            
       - name: Install tools
         run: |
           sudo apt-get update
