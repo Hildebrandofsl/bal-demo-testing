@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
-          npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra jq
+          npm install -g openapi-to-postmanv2 newman newman-reporter-htmlextra
 
       - name: Verify jq
         run: |
