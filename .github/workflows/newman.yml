@@ -11,14 +11,22 @@ on:
         description: 'Authorization endpoint'
         required: true
         type: string
+      api-username:
+        description: 'API username'
+        required: true
+        type: string
+      api-password:
+        description: 'API password'
+        required: true
+        type: string
         
 
 jobs:
     api-tests:
         runs-on: ubuntu-latest
         env:
-            API_DOC_URL: ${{ inputs.api-doc-url }} #"https://api.isst.dev/tst"
-            AUTH_URL: ${{ inputs.auth-url }} #"https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token"
+            API_DOC_URL: ${{ inputs.api-doc-url }}
+            AUTH_URL: ${{ inputs.auth-url }}
 
         steps:
             - name: Install Node.js
@@ -46,8 +54,8 @@ jobs:
 
             - name: Fetch dynamic token
               env:
-                API_USERNAME: "test@test.test" #${{ secrets.API_USERNAME }}
-                API_PASSWORD: "test" #${{ secrets.API_PASSWORD }}
+                API_USERNAME: ${{ inputs.api-username }}
+                API_PASSWORD: ${{ inputs.api-password }}
               run: |
                     echo "Requesting token from: $AUTH_URL"
 
