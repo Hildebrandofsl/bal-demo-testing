@@ -11,14 +11,15 @@ on:
         description: 'Authorization endpoint'
         required: true
         type: string
+    secrets:
       api-username:
         description: 'API username'
         required: true
-        type: string
+        
       api-password:
         description: 'API password'
         required: true
-        type: string
+        
         
 
 jobs:
@@ -54,8 +55,8 @@ jobs:
 
             - name: Fetch dynamic token
               env:
-                API_USERNAME: ${{ inputs.api-username }}
-                API_PASSWORD: ${{ inputs.api-password }}
+                API_USERNAME: ${{ secrets.api-username }}
+                API_PASSWORD: ${{ secrets.api-password }}
               run: |
                     echo "Requesting token from: $AUTH_URL"
 

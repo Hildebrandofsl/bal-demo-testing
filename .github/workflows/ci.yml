@@ -15,6 +15,7 @@ jobs:
     with:
       api-doc-url: 'https://api.isst.dev/tst'
       auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
+    secrets:  
       api-username: ${{ secrets.API_USERNAME }}
       api-password: ${{ secrets.API_PASSWORD }}  
         
