@@ -1,0 +1,5988 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/app": {
+      "get": {
+        "description": "Returns the current API version and minimum required app version",
+        "operationId": "AppController_getVersion",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get application version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "summary": "Get application version information",
+        "tags": [
+          "- App"
+        ]
+      }
+    },
+    "/cache": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CacheController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all cache entries",
+        "tags": [
+          "- Cache"
+        ]
+      },
+      "delete": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CacheController_remove",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Clear all cache entries",
+        "tags": [
+          "- Cache"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "description": "Returns health status of disk, memory, and database connections",
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Check application health status",
+        "tags": [
+          "- Health"
+        ]
+      }
+    },
+    "/v1/inbound/vendor-arrivals": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorArrivalsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get vendor arrivals data",
+        "tags": [
+          "Inbound - Vendor Arrivals"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorArrivalsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create vendor arrivals record",
+        "tags": [
+          "Inbound - Vendor Arrivals"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorArrivalsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update vendor arrivals record",
+        "tags": [
+          "Inbound - Vendor Arrivals"
+        ]
+      }
+    },
+    "/v1/inbound/hh-lld-vendor-arrivals": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HhLldVendorArrivalsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get hh lld vendor arrivals data",
+        "tags": [
+          "Inbound - HH LLD Vendor Arrivals"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HhLldVendorArrivalsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create hh lld vendor arrivals record",
+        "tags": [
+          "Inbound - HH LLD Vendor Arrivals"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HhLldVendorArrivalsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update hh lld vendor arrivals record",
+        "tags": [
+          "Inbound - HH LLD Vendor Arrivals"
+        ]
+      }
+    },
+    "/v1/inbound/receiving": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get receiving data",
+        "tags": [
+          "Inbound - Receiving"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create receiving record",
+        "tags": [
+          "Inbound - Receiving"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update receiving record",
+        "tags": [
+          "Inbound - Receiving"
+        ]
+      }
+    },
+    "/v1/inbound/receiving-count": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingCountController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get receiving count data",
+        "tags": [
+          "Inbound - Receiving Count"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingCountController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create receiving count record",
+        "tags": [
+          "Inbound - Receiving Count"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReceivingCountController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update receiving count record",
+        "tags": [
+          "Inbound - Receiving Count"
+        ]
+      }
+    },
+    "/v1/inbound/parcel-receiving": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReceivingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get parcel receiving data",
+        "tags": [
+          "Inbound - Parcel Receiving"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReceivingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create parcel receiving record",
+        "tags": [
+          "Inbound - Parcel Receiving"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReceivingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update parcel receiving record",
+        "tags": [
+          "Inbound - Parcel Receiving"
+        ]
+      }
+    },
+    "/v1/inbound/screening": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ScreeningController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get screening data",
+        "tags": [
+          "Inbound - Screening"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ScreeningController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create screening record",
+        "tags": [
+          "Inbound - Screening"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ScreeningController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update screening record",
+        "tags": [
+          "Inbound - Screening"
+        ]
+      }
+    },
+    "/v1/inbound/airlock-inspection": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AirlockInspectionController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get airlock inspection data",
+        "tags": [
+          "Inbound - Airlock Inspection"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AirlockInspectionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create airlock inspection record",
+        "tags": [
+          "Inbound - Airlock Inspection"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AirlockInspectionController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update airlock inspection record",
+        "tags": [
+          "Inbound - Airlock Inspection"
+        ]
+      }
+    },
+    "/v1/inbound/security-inspection": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SecurityInspectionController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get security inspection data",
+        "tags": [
+          "Inbound - Security Inspection"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SecurityInspectionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create security inspection record",
+        "tags": [
+          "Inbound - Security Inspection"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SecurityInspectionController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update security inspection record",
+        "tags": [
+          "Inbound - Security Inspection"
+        ]
+      }
+    },
+    "/v1/inbound/vehicle-screening": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VehicleScreeningController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get vehicle screening data",
+        "tags": [
+          "Inbound - Vehicle Screening"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VehicleScreeningController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create vehicle screening record",
+        "tags": [
+          "Inbound - Vehicle Screening"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VehicleScreeningController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update vehicle screening record",
+        "tags": [
+          "Inbound - Vehicle Screening"
+        ]
+      }
+    },
+    "/v1/inbound/change-bwid-xray": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ChangeBwidXrayController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get change bwid xray data",
+        "tags": [
+          "Inbound - Change BWID Xray"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ChangeBwidXrayController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create change bwid xray record",
+        "tags": [
+          "Inbound - Change BWID Xray"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ChangeBwidXrayController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update change bwid xray record",
+        "tags": [
+          "Inbound - Change BWID Xray"
+        ]
+      }
+    },
+    "/v1/inbound/xray-batch": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayBatchController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get xray batch data",
+        "tags": [
+          "Inbound - Xray Batch"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayBatchController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create xray batch record",
+        "tags": [
+          "Inbound - Xray Batch"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayBatchController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update xray batch record",
+        "tags": [
+          "Inbound - Xray Batch"
+        ]
+      }
+    },
+    "/v1/inbound/putaway": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PutawayController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get putaway data",
+        "tags": [
+          "Inbound - Putaway"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PutawayController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create putaway record",
+        "tags": [
+          "Inbound - Putaway"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PutawayController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update putaway record",
+        "tags": [
+          "Inbound - Putaway"
+        ]
+      }
+    },
+    "/v1/inbound/parcel-putaway": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelPutawayController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get parcel putaway data",
+        "tags": [
+          "Inbound - Parcel Putaway"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelPutawayController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create parcel putaway record",
+        "tags": [
+          "Inbound - Parcel Putaway"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelPutawayController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update parcel putaway record",
+        "tags": [
+          "Inbound - Parcel Putaway"
+        ]
+      }
+    },
+    "/v1/inbound/obwid-reprint": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ObwidReprintController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get obwid reprint data",
+        "tags": [
+          "Inbound - OBWID Reprint"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ObwidReprintController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create obwid reprint record",
+        "tags": [
+          "Inbound - OBWID Reprint"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ObwidReprintController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update obwid reprint record",
+        "tags": [
+          "Inbound - OBWID Reprint"
+        ]
+      }
+    },
+    "/v1/inbound/parcel-reprint": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReprintController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get parcel reprint data",
+        "tags": [
+          "Inbound - Parcel Reprint"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReprintController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create parcel reprint record",
+        "tags": [
+          "Inbound - Parcel Reprint"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelReprintController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update parcel reprint record",
+        "tags": [
+          "Inbound - Parcel Reprint"
+        ]
+      }
+    },
+    "/v1/inbound/reconciling-invoices": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReconcilingInvoicesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get reconciling invoices data",
+        "tags": [
+          "Inbound - Reconciling Invoices"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReconcilingInvoicesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create reconciling invoices record",
+        "tags": [
+          "Inbound - Reconciling Invoices"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReconcilingInvoicesController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update reconciling invoices record",
+        "tags": [
+          "Inbound - Reconciling Invoices"
+        ]
+      }
+    },
+    "/v1/inbound/barcodes": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BarcodesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get barcodes data",
+        "tags": [
+          "Inbound - Barcodes"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BarcodesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create barcodes record",
+        "tags": [
+          "Inbound - Barcodes"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BarcodesController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update barcodes record",
+        "tags": [
+          "Inbound - Barcodes"
+        ]
+      }
+    },
+    "/v1/grease/container-drop-off": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerDropOffController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get container drop off data",
+        "tags": [
+          "Grease - Container Drop Off"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerDropOffController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create container drop off record",
+        "tags": [
+          "Grease - Container Drop Off"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerDropOffController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update container drop off record",
+        "tags": [
+          "Grease - Container Drop Off"
+        ]
+      }
+    },
+    "/v1/grease/extraction": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ExtractionController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get extraction data",
+        "tags": [
+          "Grease - Extraction"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ExtractionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create extraction record",
+        "tags": [
+          "Grease - Extraction"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ExtractionController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update extraction record",
+        "tags": [
+          "Grease - Extraction"
+        ]
+      }
+    },
+    "/v1/grease/container-collection": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerCollectionController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get container collection data",
+        "tags": [
+          "Grease - Container Collection"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerCollectionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create container collection record",
+        "tags": [
+          "Grease - Container Collection"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerCollectionController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update container collection record",
+        "tags": [
+          "Grease - Container Collection"
+        ]
+      }
+    },
+    "/v1/grease/collections": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CollectionsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get collections data",
+        "tags": [
+          "Grease - Collections"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CollectionsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create collections record",
+        "tags": [
+          "Grease - Collections"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CollectionsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update collections record",
+        "tags": [
+          "Grease - Collections"
+        ]
+      }
+    },
+    "/v1/operations/shift-kpi": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ShiftKpiController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get shift kpi data",
+        "tags": [
+          "Operations - Shift Kpi"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ShiftKpiController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create shift kpi record",
+        "tags": [
+          "Operations - Shift Kpi"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ShiftKpiController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update shift kpi record",
+        "tags": [
+          "Operations - Shift Kpi"
+        ]
+      }
+    },
+    "/v1/operations/incident-reporting": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "IncidentReportingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get incident reporting data",
+        "tags": [
+          "Operations - Incident Reporting"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "IncidentReportingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create incident reporting record",
+        "tags": [
+          "Operations - Incident Reporting"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "IncidentReportingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update incident reporting record",
+        "tags": [
+          "Operations - Incident Reporting"
+        ]
+      }
+    },
+    "/v1/operations/equipment-inspection": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EquipmentInspectionController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get equipment inspection data",
+        "tags": [
+          "Operations - Equipment Inspection"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EquipmentInspectionController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create equipment inspection record",
+        "tags": [
+          "Operations - Equipment Inspection"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EquipmentInspectionController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update equipment inspection record",
+        "tags": [
+          "Operations - Equipment Inspection"
+        ]
+      }
+    },
+    "/v1/operations/facility-exceptions": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityExceptionsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get facility exceptions data",
+        "tags": [
+          "Operations - Facility Exceptions"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityExceptionsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create facility exceptions record",
+        "tags": [
+          "Operations - Facility Exceptions"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityExceptionsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update facility exceptions record",
+        "tags": [
+          "Operations - Facility Exceptions"
+        ]
+      }
+    },
+    "/v1/operations/home": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HomeController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get home data",
+        "tags": [
+          "Operations - Home"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HomeController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create home record",
+        "tags": [
+          "Operations - Home"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "HomeController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update home record",
+        "tags": [
+          "Operations - Home"
+        ]
+      }
+    },
+    "/v1/operations/vendor-barcodes": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorBarcodesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get vendor barcodes data",
+        "tags": [
+          "Operations - Vendor Barcodes"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorBarcodesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create vendor barcodes record",
+        "tags": [
+          "Operations - Vendor Barcodes"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorBarcodesController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update vendor barcodes record",
+        "tags": [
+          "Operations - Vendor Barcodes"
+        ]
+      }
+    },
+    "/v1/operations/training": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get training data",
+        "tags": [
+          "Operations - Training"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create training record",
+        "tags": [
+          "Operations - Training"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update training record",
+        "tags": [
+          "Operations - Training"
+        ]
+      }
+    },
+    "/v1/operations/field-observations": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FieldObservationsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get field observations data",
+        "tags": [
+          "Operations - Field Observations"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FieldObservationsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create field observations record",
+        "tags": [
+          "Operations - Field Observations"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FieldObservationsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update field observations record",
+        "tags": [
+          "Operations - Field Observations"
+        ]
+      }
+    },
+    "/v1/operations/asset-transfer": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetTransferController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get asset transfer data",
+        "tags": [
+          "Operations - Asset Transfer"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetTransferController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create asset transfer record",
+        "tags": [
+          "Operations - Asset Transfer"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetTransferController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update asset transfer record",
+        "tags": [
+          "Operations - Asset Transfer"
+        ]
+      }
+    },
+    "/v1/operations/manager-functions": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManagerFunctionsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get manager functions data",
+        "tags": [
+          "Operations - Manager Functions"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManagerFunctionsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create manager functions record",
+        "tags": [
+          "Operations - Manager Functions"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManagerFunctionsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update manager functions record",
+        "tags": [
+          "Operations - Manager Functions"
+        ]
+      }
+    },
+    "/v1/operations/bwid-status": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BwidStatusController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get bwid status data",
+        "tags": [
+          "Operations - BWID Status"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BwidStatusController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create bwid status record",
+        "tags": [
+          "Operations - BWID Status"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BwidStatusController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update bwid status record",
+        "tags": [
+          "Operations - BWID Status"
+        ]
+      }
+    },
+    "/v1/operations/alert-messages": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AlertMessagesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get alert messages data",
+        "tags": [
+          "Operations - Alert Messages"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AlertMessagesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create alert messages record",
+        "tags": [
+          "Operations - Alert Messages"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AlertMessagesController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update alert messages record",
+        "tags": [
+          "Operations - Alert Messages"
+        ]
+      }
+    },
+    "/v1/operations/employee-screening": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EmployeeScreeningController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get employee screening data",
+        "tags": [
+          "Operations - Employee Screening"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EmployeeScreeningController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create employee screening record",
+        "tags": [
+          "Operations - Employee Screening"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "EmployeeScreeningController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update employee screening record",
+        "tags": [
+          "Operations - Employee Screening"
+        ]
+      }
+    },
+    "/v1/operations/assets-log": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetsLogController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get assets log data",
+        "tags": [
+          "Operations - Assets Log"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetsLogController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create assets log record",
+        "tags": [
+          "Operations - Assets Log"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "AssetsLogController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update assets log record",
+        "tags": [
+          "Operations - Assets Log"
+        ]
+      }
+    },
+    "/v1/operations/training-attendance": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingAttendanceController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get training attendance data",
+        "tags": [
+          "Operations - Training Attendance"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingAttendanceController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create training attendance record",
+        "tags": [
+          "Operations - Training Attendance"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TrainingAttendanceController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update training attendance record",
+        "tags": [
+          "Operations - Training Attendance"
+        ]
+      }
+    },
+    "/v1/operations/team-mgmt-lite": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TeamMgmtLiteController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get team mgmt lite data",
+        "tags": [
+          "Operations - Team Mgmt Lite"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TeamMgmtLiteController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create team mgmt lite record",
+        "tags": [
+          "Operations - Team Mgmt Lite"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TeamMgmtLiteController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update team mgmt lite record",
+        "tags": [
+          "Operations - Team Mgmt Lite"
+        ]
+      }
+    },
+    "/v1/operations/facility-anomality": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityAnomalityController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get facility anomality data",
+        "tags": [
+          "Operations - Facility Anomality"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityAnomalityController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create facility anomality record",
+        "tags": [
+          "Operations - Facility Anomality"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "FacilityAnomalityController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update facility anomality record",
+        "tags": [
+          "Operations - Facility Anomality"
+        ]
+      }
+    },
+    "/v1/outbound/sharps-status": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SharpsStatusController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get sharps status data",
+        "tags": [
+          "Outbound - Sharps Status"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SharpsStatusController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create sharps status record",
+        "tags": [
+          "Outbound - Sharps Status"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "SharpsStatusController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update sharps status record",
+        "tags": [
+          "Outbound - Sharps Status"
+        ]
+      }
+    },
+    "/v1/outbound/check-weight": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CheckWeightController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get check weight data",
+        "tags": [
+          "Outbound - Check Weight"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CheckWeightController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create check weight record",
+        "tags": [
+          "Outbound - Check Weight"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "CheckWeightController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update check weight record",
+        "tags": [
+          "Outbound - Check Weight"
+        ]
+      }
+    },
+    "/v1/outbound/manage-delivery-plan": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManageDeliveryPlanController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get manage delivery plan data",
+        "tags": [
+          "Outbound - Manage Delivery Plan"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManageDeliveryPlanController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create manage delivery plan record",
+        "tags": [
+          "Outbound - Manage Delivery Plan"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ManageDeliveryPlanController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update manage delivery plan record",
+        "tags": [
+          "Outbound - Manage Delivery Plan"
+        ]
+      }
+    },
+    "/v1/outbound/batch-picking": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BatchPickingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get batch picking data",
+        "tags": [
+          "Outbound - Batch Picking"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BatchPickingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create batch picking record",
+        "tags": [
+          "Outbound - Batch Picking"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "BatchPickingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update batch picking record",
+        "tags": [
+          "Outbound - Batch Picking"
+        ]
+      }
+    },
+    "/v1/outbound/picking": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get picking data",
+        "tags": [
+          "Outbound - Picking"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create picking record",
+        "tags": [
+          "Outbound - Picking"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update picking record",
+        "tags": [
+          "Outbound - Picking"
+        ]
+      }
+    },
+    "/v1/outbound/delivery-plan": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryPlanController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get delivery plan data",
+        "tags": [
+          "Outbound - Delivery Plan"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryPlanController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create delivery plan record",
+        "tags": [
+          "Outbound - Delivery Plan"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryPlanController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update delivery plan record",
+        "tags": [
+          "Outbound - Delivery Plan"
+        ]
+      }
+    },
+    "/v1/outbound/offline-functionalities": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "OfflineFunctionalitiesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get offline functionalities data",
+        "tags": [
+          "Outbound - Offline Functionalities"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "OfflineFunctionalitiesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create offline functionalities record",
+        "tags": [
+          "Outbound - Offline Functionalities"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "OfflineFunctionalitiesController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update offline functionalities record",
+        "tags": [
+          "Outbound - Offline Functionalities"
+        ]
+      }
+    },
+    "/v1/outbound/delivery": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get delivery data",
+        "tags": [
+          "Outbound - Delivery"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create delivery record",
+        "tags": [
+          "Outbound - Delivery"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "DeliveryController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update delivery record",
+        "tags": [
+          "Outbound - Delivery"
+        ]
+      }
+    },
+    "/v1/outbound/terminal-arrival": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TerminalArrivalController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get terminal arrival data",
+        "tags": [
+          "Outbound - Terminal Arrival"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TerminalArrivalController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create terminal arrival record",
+        "tags": [
+          "Outbound - Terminal Arrival"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "TerminalArrivalController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update terminal arrival record",
+        "tags": [
+          "Outbound - Terminal Arrival"
+        ]
+      }
+    },
+    "/v1/outbound/xray-parcel-batch-picking": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayParcelBatchPickingController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get xray parcel batch picking data",
+        "tags": [
+          "Outbound - Xray Parcel Batch Picking"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayParcelBatchPickingController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create xray parcel batch picking record",
+        "tags": [
+          "Outbound - Xray Parcel Batch Picking"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "XrayParcelBatchPickingController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update xray parcel batch picking record",
+        "tags": [
+          "Outbound - Xray Parcel Batch Picking"
+        ]
+      }
+    },
+    "/v1/outbound/picking-assignment": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingAssignmentController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get picking assignment data",
+        "tags": [
+          "Outbound - Picking Assignment"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingAssignmentController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create picking assignment record",
+        "tags": [
+          "Outbound - Picking Assignment"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "PickingAssignmentController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update picking assignment record",
+        "tags": [
+          "Outbound - Picking Assignment"
+        ]
+      }
+    },
+    "/v1/reverse/media-pick-up": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaPickUpController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get media pick up data",
+        "tags": [
+          "Reverse - Media Pick Up"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaPickUpController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create media pick up record",
+        "tags": [
+          "Reverse - Media Pick Up"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaPickUpController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update media pick up record",
+        "tags": [
+          "Reverse - Media Pick Up"
+        ]
+      }
+    },
+    "/v1/reverse/container-pick-up": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerPickUpController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get container pick up data",
+        "tags": [
+          "Reverse - Container Pick Up"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerPickUpController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create container pick up record",
+        "tags": [
+          "Reverse - Container Pick Up"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ContainerPickUpController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update container pick up record",
+        "tags": [
+          "Reverse - Container Pick Up"
+        ]
+      }
+    },
+    "/v1/reverse/media-transactions": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaTransactionsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get media transactions data",
+        "tags": [
+          "Reverse - Media Transactions"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaTransactionsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create media transactions record",
+        "tags": [
+          "Reverse - Media Transactions"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "MediaTransactionsController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update media transactions record",
+        "tags": [
+          "Reverse - Media Transactions"
+        ]
+      }
+    },
+    "/v1/reverse/vendor-pick-up": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorPickUpController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get vendor pick up data",
+        "tags": [
+          "Reverse - Vendor Pick Up"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorPickUpController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create vendor pick up record",
+        "tags": [
+          "Reverse - Vendor Pick Up"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "VendorPickUpController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update vendor pick up record",
+        "tags": [
+          "Reverse - Vendor Pick Up"
+        ]
+      }
+    },
+    "/v1/reverse/returns-and-transfers": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReturnsAndTransfersController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get returns and transfers data",
+        "tags": [
+          "Reverse - Returns And Transfers"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReturnsAndTransfersController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create returns and transfers record",
+        "tags": [
+          "Reverse - Returns And Transfers"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ReturnsAndTransfersController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update returns and transfers record",
+        "tags": [
+          "Reverse - Returns And Transfers"
+        ]
+      }
+    },
+    "/v1/reverse/parcel-handover": {
+      "get": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelHandoverController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get parcel handover data",
+        "tags": [
+          "Reverse - Parcel Handover"
+        ]
+      },
+      "post": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelHandoverController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create parcel handover record",
+        "tags": [
+          "Reverse - Parcel Handover"
+        ]
+      },
+      "put": {
+        "description": "TODO: Add detailed description of this endpoint",
+        "operationId": "ParcelHandoverController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Updated successfully"
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Resource does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Update parcel handover record",
+        "tags": [
+          "Reverse - Parcel Handover"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AMIS Backend API",
+    "description": "AMIS Backend API Documentation",
+    "version": "0.0.39",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter Keycloak JWT token",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "AppResponse": {
+        "type": "object",
+        "properties": {
+          "minimumAppVersion": {
+            "type": "string",
+            "description": "The minimum required application version",
+            "example": "1.0.0"
+          },
+          "currentApiVersion": {
+            "type": "string",
+            "description": "The current application version",
+            "example": "1.0.0"
+          }
+        },
+        "required": [
+          "minimumAppVersion",
+          "currentApiVersion"
+        ]
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "description": "HTTP status code",
+            "example": 400
+          },
+          "message": {
+            "description": "Error message or array of validation error messages. Single string for general errors, array for validation errors.",
+            "example": "Validation failed",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error type classification",
+            "example": "Bad Request"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "ISO 8601 timestamp when the error occurred",
+            "example": "2025-01-13T14:30:00.000Z",
+            "format": "date-time"
+          },
+          "path": {
+            "type": "string",
+            "description": "Request path that caused the error",
+            "example": "/v1/inbound/receiving"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "error"
+        ]
+      }
+    }
+  }
+}

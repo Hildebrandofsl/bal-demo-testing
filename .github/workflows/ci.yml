@@ -7,18 +7,29 @@ on:
     branches: [ main ]
 
 jobs:
-  Newman-test-api:
-    name: Newman
-    uses: ./.github/workflows/newman.yml
+  # Newman-test-api:
+  #   name: Newman
+  #   uses: ./.github/workflows/newman.yml
+  #   permissions:                    
+  #     security-events: write
+  #   with:
+  #     api-doc-url: 'https://api.isst.dev/tst'
+  #     auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
+  #   secrets:  
+  #     api-username: ${{ secrets.API_USERNAME }}
+  #     api-password: ${{ secrets.API_PASSWORD }}  
+  
+  dredd-tst:
+    name: Contract Test (Dredd)
+    uses: ./.github/workflows/dredd.yml
     permissions:                    
-      security-events: write
+       actions: read
     with:
-      api-doc-url: 'https://api.isst.dev/tst'
+      url: 'https://api.isst.dev/tst'
       auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
-    secrets:  
+    secrets:
       api-username: ${{ secrets.API_USERNAME }}
-      api-password: ${{ secrets.API_PASSWORD }}  
-        
+      api-password: ${{ secrets.API_PASSWORD }}
   # build-and-test:
   #   name: Build and Test
   #   uses: ./.github/workflows/build.yml

@@ -1,0 +1,58 @@
+name: Dredd API Contract Test
+
+on:
+  workflow_call:
+    inputs:
+      url:
+        required: true
+        type: string
+      auth-url:
+        required: true
+        type: string
+    secrets:
+      api-username:
+        required: true
+      api-password:
+        required: true
+
+jobs:
+  dredd:
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: ${{ inputs.url }}
+      AUTH_URL: ${{ inputs['auth-url'] }}
+      CLIENT_ID: amis-api
+      API_USERNAME: ${{ secrets.api-username }}
+      API_PASSWORD: ${{ secrets.api-password }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install project dependencies
+        run: pnpm install
+
+      - name: Generate OpenAPI spec
+        run: pnpm run openapi:generate
+
+      - name: Install Dredd and axios
+        run: pnpm add -g dredd axios
+
+      - name: Run Dredd against API
+        run: |
+          dredd ./docs/openapi-v1.json $BASE_URL --hookfiles=./dredd/hooks.js
+          if [ $? -ne 0 ]; then
+            echo "Dredd tests failed!"
+            exit 1
+          fi
