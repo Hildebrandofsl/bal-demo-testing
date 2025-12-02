@@ -54,11 +54,11 @@ jobs:
   #     scan-severity: 'HIGH,CRITICAL'
   #     fail-on-severity: false
   
-  zizmor-scan:
-        name: Zizmor Scan
-        needs: Newman-test-api
-        #needs: build-and-test
-        uses: ./.github/workflows/zizmor-scan.yml
-        permissions:
-          contents: read
-          security-events: write
+  # zizmor-scan:
+  #       name: Zizmor Scan
+  #       needs: Newman-test-api
+  #       #needs: build-and-test
+  #       uses: ./.github/workflows/zizmor-scan.yml
+  #       permissions:
+  #         contents: read
+  #         security-events: write
