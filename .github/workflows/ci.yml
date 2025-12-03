@@ -31,6 +31,8 @@ jobs:
       - name: Set API outputs
         id: set-api-url
         run: |
+          echo ${API_URL}
+          echo ${{ env.API_URL }}
           echo "api-url=${API_URL}" >> $GITHUB_OUTPUT
           echo "auth-url=${AUTH_URL}" >> $GITHUB_OUTPUT
      
