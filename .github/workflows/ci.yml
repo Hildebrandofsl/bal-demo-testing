@@ -5,6 +5,10 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+env:
+  # Unified API URLs (used across Newman & Dredd)
+  API_URL: "https://api.isst.dev/tst"
+  AUTH_URL: "https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token"
 
 jobs:
   # Newman-test-api:
@@ -25,7 +29,7 @@ jobs:
     permissions:                    
        actions: read
     with:
-      url: 'https://api.isst.dev/tst'
+      url: ${{ env.API_URL }}
       auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
     secrets:
       api-username: ${{ secrets.API_USERNAME }}

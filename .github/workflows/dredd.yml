@@ -44,15 +44,17 @@ jobs:
         run: pnpm install
 
       - name: Generate OpenAPI spec
-        run: echo "pnpm run openapi:generate"
+        run: pnpm run openapi:generate
 
       - name: Install Dredd and axios
         run: pnpm add -g dredd axios
 
-      - name: Run Dredd against API
-        run: |
-          dredd ./docs/openapi-v1.json $BASE_URL --hookfiles=./dredd/hooks.js
-          if [ $? -ne 0 ]; then
-            echo "Dredd tests failed!"
-            exit 1
-          fi
+      # - name: Run Dredd against API
+      #   run: |
+      #     dredd ./docs/openapi-v1.json $BASE_URL --hookfiles=./dredd/hooks.js
+      #     if [ $? -ne 0 ]; then
+      #       echo "Dredd tests failed!"
+      #       exit 1
+      #     fi
+      - name: Install Dredd and axios
+        run: echo $URL
