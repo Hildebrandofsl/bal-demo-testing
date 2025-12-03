@@ -11,6 +11,30 @@ env:
   AUTH_URL: "https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token"
 
 jobs:
+  deploy:
+    name: Build and Push Docker Image to ECR
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v5
+      
+      - name: Set API outputs
+        id: set-api-url
+        run: |
+          echo "api_url=${API_URL}" >> $GITHUB_OUTPUT
+          echo "auth_url=${AUTH_URL}" >> $GITHUB_OUTPUT
+     
+    
   # Newman-test-api:
   #   name: Newman
   #   uses: ./.github/workflows/newman.yml
@@ -29,7 +53,7 @@ jobs:
     permissions:                    
        actions: read
     with:
-      url: ${{ env.API_URL }}
+      url: ${{ needs.deploy.outputs.api-url }}
       auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
     secrets:
       api-username: ${{ secrets.API_USERNAME }}
