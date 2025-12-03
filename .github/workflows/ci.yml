@@ -31,8 +31,8 @@ jobs:
       - name: Set API outputs
         id: set-api-url
         run: |
-          echo "api_url=${API_URL}" >> $GITHUB_OUTPUT
-          echo "auth_url=${AUTH_URL}" >> $GITHUB_OUTPUT
+          echo "api-url=${API_URL}" >> $GITHUB_OUTPUT
+          echo "auth-url=${AUTH_URL}" >> $GITHUB_OUTPUT
      
     
   # Newman-test-api:
