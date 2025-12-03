@@ -24,9 +24,9 @@ jobs:
       run:
         shell: bash
     
-    # outputs:
-    #   api_url: ${{ steps.set-api-url.outputs.api_url }}
-    #   auth_url: ${{ steps.set-api-url.outputs.auth_url }}
+    outputs:
+      api_url: ${{ steps.set-api-url.outputs.api_url }}
+      auth_url: ${{ steps.set-api-url.outputs.auth_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v5
