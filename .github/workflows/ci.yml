@@ -36,7 +36,7 @@ jobs:
         run: |
           echo ${API_URL}
           echo ${{ env.API_URL }}
-          echo "api_url=${API_URL}" >> $GITHUB_OUTPUT
+          echo "api_url=${{ env.API_URL }}" >> $GITHUB_OUTPUT
           echo "auth_url=${AUTH_URL}" >> $GITHUB_OUTPUT
      
     
