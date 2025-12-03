@@ -58,7 +58,7 @@ jobs:
     permissions:                    
        actions: read
     with:
-      url: ${{ needs.deploy.outputs.api-url }}
+      url: ${{ needs.deploy.outputs.api_url }}
       auth-url: 'https://auth.isst.dev/realms/bradford_realm/protocol/openid-connect/token'
     secrets:
       api-username: ${{ secrets.API_USERNAME }}
