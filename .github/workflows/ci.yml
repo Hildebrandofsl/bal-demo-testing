@@ -40,6 +40,7 @@ jobs:
     
   Newman-test-api:
     name: Newman
+    needs: deploy
     uses: ./.github/workflows/newman.yml
     permissions:                    
       security-events: write
